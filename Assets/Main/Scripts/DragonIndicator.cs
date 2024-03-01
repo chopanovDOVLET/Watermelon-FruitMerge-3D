@@ -53,15 +53,15 @@ public class DragonIndicator : MonoBehaviour
     {
         Init();
         nextDr = drIndex;
-        dr[nextDr].transform.GetChild(1).localScale = Vector3.zero;
-        dr[nextDr].transform.GetChild(1).gameObject.SetActive(true);
+        //dr[nextDr].transform.GetChild(1).localScale = Vector3.zero;
+        //dr[nextDr].transform.GetChild(1).gameObject.SetActive(true);
         Tweener t = handle.DOLocalMoveX(X + 215, 0.5f);
         t.SetUpdate(true);
         yield return new WaitForSecondsRealtime(1f);
         Time.timeScale = 0;
         x = handle.localPosition.x - 215;
-        Tweener t2 = dr[nextDr].transform.GetChild(1).DOScale(Vector3.one, 0.5f);
-        t2.SetUpdate(true);
+        //Tweener t2 = dr[nextDr].transform.GetChild(1).DOScale(Vector3.one, 0.5f);
+        //t2.SetUpdate(true);
         Tweener t3 = handle.DOLocalMoveX(x, 1f);
         t3.SetUpdate(true);
         isOn = false;
@@ -77,49 +77,59 @@ public class DragonIndicator : MonoBehaviour
 
         if (!wasThisUnlockedBefore)
         {
-            GameAnalyticsSDK.GameAnalytics.NewProgressionEvent(GameAnalyticsSDK.GAProgressionStatus.Complete, newFruitName);
             PlayerPrefs.SetInt(newFruitName, 1);
-        }
+            YsoCorp.GameUtils.YCManager.instance.OnGameStarted(nextDr);
+            YsoCorp.GameUtils.YCManager.instance.OnGameFinished(true);
 
-        unlockNewDr.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = newFruitName;
-        unlockNewDr.gameObject.SetActive(true);
-        Image im = unlockNewDr.GetComponent<Image>();
-        Tweener t = im.DOFade(1, 0.5f);
-        t.SetUpdate(true);
-        Vector3 pos = Camera.main.ScreenToWorldPoint(unlockNewDr.localPosition);
-        pos = pos + (unlockNewDr.position - Camera.main.transform.position) / 1.5f;
-        yield return new WaitForSecondsRealtime(.5f);
-        Tweener t1 = unlockNewDr.GetChild(1).DOScale(Vector3.one, 0.5f);
-        t1.SetUpdate(true);//nextDr
-        Transform newDr = Instantiate(MoveController.Instance.dragonData[nextDr].DragonPrefapUI, pos, Quaternion.Euler(-113, -30, 90), unlockNewDr).transform;
-        newDr.transform.localRotation = Quaternion.Euler(-94, -30, 90);
-        newDr.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-        Vector3 drScale = newDr.localScale * 350;
-        Dr = newDr;
-        Rotate = true;
-        Tweener t2 = newDr.DOScale(drScale, .5f);
-        t2.SetUpdate(true);
-        AudioSource sd = Instantiate(NewDragonSound, newDr.position, newDr.rotation);
-        Destroy(sd.gameObject, 3f);
-        sd.Play();
-        //CheckSpecialDragon();
-        RewardNumber.text = "+" + rewardNm;
-        if (uni)
-            UnicornIcon.gameObject.SetActive(true);
-        else if (bomb)
-            BombIcon.gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(.75f);
-        if (bomb || uni)
+
+            unlockNewDr.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = newFruitName;
+            unlockNewDr.gameObject.SetActive(true);
+            Image im = unlockNewDr.GetComponent<Image>();
+            Tweener t = im.DOFade(1, 0.5f);
+            t.SetUpdate(true);
+            Vector3 pos = Camera.main.ScreenToWorldPoint(unlockNewDr.localPosition);
+            pos = pos + (unlockNewDr.position - Camera.main.transform.position) / 1.5f;
+            yield return new WaitForSecondsRealtime(.5f);
+            Tweener t1 = unlockNewDr.GetChild(1).DOScale(Vector3.one, 0.5f);
+            t1.SetUpdate(true); //nextDr
+            Transform newDr = Instantiate(MoveController.Instance.dragonData[nextDr].DragonPrefapUI, pos,
+                Quaternion.Euler(-113, -30, 90), unlockNewDr).transform;
+            newDr.transform.localRotation = Quaternion.Euler(-94, -30, 90);
+            newDr.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            Vector3 drScale = newDr.localScale * 350;
+            Dr = newDr;
+            Rotate = true;
+            Tweener t2 = newDr.DOScale(drScale, .5f);
+            t2.SetUpdate(true);
+            AudioSource sd = Instantiate(NewDragonSound, newDr.position, newDr.rotation);
+            Destroy(sd.gameObject, 3f);
+            sd.Play();
+            /*CheckSpecialDragon();
+            RewardNumber.text = "+" + rewardNm;
+            if (uni)
+                UnicornIcon.gameObject.SetActive(true);
+            else if (bomb)
+                BombIcon.gameObject.SetActive(true);
+            yield return new WaitForSecondsRealtime(.75f);
+            if (bomb || uni)
+            {
+                Tweener t5 = RewardText.DOScale(Vector3.one, 0.5f);
+                t5.SetUpdate(true);
+                yield return new WaitForSecondsRealtime(0.5f);
+                Tweener t6 = BombIcon.parent.DOScale(Vector3.one, 0.5f);
+                t6.SetUpdate(true);
+            }*/
+
+            Tweener t4 = unlockNewDr.GetChild(2).DOScale(Vector3.one, 0.5f);
+            t4.SetUpdate(true);
+        }
+        else
         {
-            Tweener t5 = RewardText.DOScale(Vector3.one, 0.5f);
-            t5.SetUpdate(true);
-            yield return new WaitForSecondsRealtime(0.5f);
-            Tweener t6 = BombIcon.parent.DOScale(Vector3.one, 0.5f);
-            t6.SetUpdate(true);
+            isOn = false;
+            Time.timeScale = 1;
+            ScrollController.Instance.CanCheck = true;
+            TouchController.Instance.TakeControl = false;   
         }
-
-        Tweener t4 = unlockNewDr.GetChild(2).DOScale(Vector3.one, 0.5f);
-        t4.SetUpdate(true);
     }
 
     public void ContinueButton()

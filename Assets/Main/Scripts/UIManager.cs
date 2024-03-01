@@ -62,6 +62,8 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator EnableLosePanel()
     {
+        YsoCorp.GameUtils.YCManager.instance.OnGameFinished(false);
+        
         Time.timeScale = 0;
         ScrollController.Instance.CanCheck = false;
 

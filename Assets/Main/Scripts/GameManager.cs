@@ -9,9 +9,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        if(!GameAnalyticsSDK.GameAnalytics.Initialized)
-            GameAnalyticsSDK.GameAnalytics.Initialize();
-
         drData = MoveController.Instance.dragonData;
         drParent = MoveController.Instance.dragonsParent;
         GetDr();

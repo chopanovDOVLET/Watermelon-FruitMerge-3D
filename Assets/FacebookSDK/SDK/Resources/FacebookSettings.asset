@@ -18,13 +18,13 @@ MonoBehaviour:
   appIds:
   - 409421558083504
   appLabels:
-  - Fruit Merge
+  - Watermelon Fruit Merge 3D
   cookie: 1
   logging: 1
   status: 1
   xfbml: 0
   frictionlessRequests: 1
-  androidKeystorePath: C:\Users\belli\Desktop\FruitMergeWatermelon.keystore
+  androidKeystorePath: 
   iosURLSuffix: 
   appLinkSchemes:
   - list: []

@@ -21,6 +21,7 @@ public class MoveController : MonoBehaviour
     public int hashId;
     public int currentdr;
     public int randomDr = 0;
+    public int min, max;
     private bool tapToStart, isSpecialDr;
     Touch touch;
     TouchController Tscript;
@@ -35,6 +36,8 @@ public class MoveController : MonoBehaviour
 
     void Start()
     {
+        min = 0;
+        max = currentdr;
         Application.targetFrameRate = 60;  
         Tscript = GetComponent<TouchController>();
     }
@@ -86,7 +89,7 @@ public class MoveController : MonoBehaviour
         
         Vector3 pos = new Vector3(InstanPos.position.x, dragonData[randomDr].DragonPrefap.transform.position.y, InstanPos.position.z-6);
         mainDragon = Instantiate(dragonData[randomDr].DragonPrefap, pos, Quaternion.Euler(-90,0,-90)).GetComponent<Dragon>();
-        mainDragon.transform.DOMoveZ(InstanPos.position.z, 0.2f).OnComplete(() => mainDragon.transform.DORotateQuaternion(dragonData[randomDr].DragonPrefap.transform.rotation, 0.15f).OnComplete(() => SetPar()));
+        mainDragon.transform.DOMoveZ(InstanPos.position.z, 0.2f).OnComplete(() => mainDragon.transform.DORotateQuaternion(Quaternion.Euler(-55,0,90), 0.15f).OnComplete(() => SetPar()));
         mainDragon.isMergeing = true;
         mainDragon.isMain = true;
         mainDragon.id = dragonData[randomDr].id;
@@ -94,10 +97,20 @@ public class MoveController : MonoBehaviour
         mainDragon.hashId = hashId;
         hashId++;
 
-        if ((currentdr + 1) < 6)
-            randomDr = Random.Range(0, currentdr + 1);
-        else
-            randomDr = Random.Range(0, 7);
+        max = (currentdr > 3 && currentdr < 7) ? 3 : currentdr;
+        if (currentdr > 6)
+        {
+            min = currentdr - 6;
+            max = currentdr - 3;
+        }
+        
+        randomDr = Random.Range(min, max);
+
+
+        // if ((currentdr + 1) < 6)
+        //     randomDr = Random.Range(0, currentdr + 1);
+        // else
+        //     randomDr = Random.Range(0, 7);
 
         for (int i = 0; i < nextRandomDr.childCount; i++)
             nextRandomDr.GetChild(i).gameObject.SetActive(false);
