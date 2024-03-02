@@ -78,8 +78,8 @@ public class DragonIndicator : MonoBehaviour
         if (!wasThisUnlockedBefore)
         {
             PlayerPrefs.SetInt(newFruitName, 1);
-            YsoCorp.GameUtils.YCManager.instance.OnGameStarted(nextDr);
-            YsoCorp.GameUtils.YCManager.instance.OnGameFinished(true);
+            //YsoCorp.GameUtils.YCManager.instance.OnGameStarted(nextDr);
+            //YsoCorp.GameUtils.YCManager.instance.OnGameFinished(true);
 
 
             unlockNewDr.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = newFruitName;

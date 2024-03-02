@@ -943,6 +943,9 @@ MonoBehaviour:
   thickness: 0
   material: {fileID: 0}
   filter: -65535
+  obiRigidbody: {fileID: 0}
+  wasUnityColliderEnabled: 1
+  dirty: 0
   m_SourceCollider: {fileID: 58499623}
   m_DistanceField: {fileID: 0}
 --- !u!1 &65534612
@@ -3569,6 +3572,9 @@ MonoBehaviour:
   thickness: 0
   material: {fileID: 0}
   filter: -65535
+  obiRigidbody: {fileID: 0}
+  wasUnityColliderEnabled: 1
+  dirty: 0
   m_SourceCollider: {fileID: 439245944}
   m_DistanceField: {fileID: 0}
 --- !u!1 &443187656
@@ -9100,7 +9106,6 @@ GameObject:
   - component: {fileID: 1110787400}
   - component: {fileID: 1110787399}
   - component: {fileID: 1110787403}
-  - component: {fileID: 1110787404}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -9212,18 +9217,6 @@ MonoBehaviour:
   m_EventSystem: {fileID: 1637807159}
   drIn: {fileID: 1175813374}
   CanCheck: 0
---- !u!114 &1110787404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110787398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfcb21ab161de184d8b5a55e053f41f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1112126996
 GameObject:
   m_ObjectHideFlags: 0
@@ -11474,6 +11467,9 @@ MonoBehaviour:
   thickness: 0
   material: {fileID: 0}
   filter: -65535
+  obiRigidbody: {fileID: 0}
+  wasUnityColliderEnabled: 1
+  dirty: 0
   m_SourceCollider: {fileID: 1455046020}
   m_DistanceField: {fileID: 0}
 --- !u!1 &1467352374
@@ -11975,6 +11971,9 @@ MonoBehaviour:
   thickness: 0
   material: {fileID: 0}
   filter: -65535
+  obiRigidbody: {fileID: 0}
+  wasUnityColliderEnabled: 1
+  dirty: 0
   m_SourceCollider: {fileID: 1559313494}
   m_DistanceField: {fileID: 0}
 --- !u!1 &1586408540
@@ -13314,6 +13313,9 @@ MonoBehaviour:
   thickness: 0
   material: {fileID: 0}
   filter: -65535
+  obiRigidbody: {fileID: 0}
+  wasUnityColliderEnabled: 1
+  dirty: 0
   m_SourceCollider: {fileID: 1728691808}
   m_DistanceField: {fileID: 0}
 --- !u!1 &1742613730
