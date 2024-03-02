@@ -36,14 +36,29 @@ public class TouchController : MonoBehaviour
             if (touch.phase == TouchPhase.Moved)
             {
                 delta = LeanGesture.GetScreenDelta(LeanTouch.Fingers);
-                horizontalMove = (transform.right * delta.x * Time.deltaTime) / 2.6f;
-                mainDragon.position += horizontalMove;
+                horizontalMove = (transform.right * delta.x * Time.deltaTime) / (Screen.width / 400);
+                Vector3 vector = mainDragon.position + horizontalMove;
+                mainDragon.position = Vector3.Lerp(mainDragon.position, vector, Time.deltaTime * 65);
+            }
+        }
+        else
+        {
+            if (Input.GetMouseButton(0))
+            {
+                delta = LeanGesture.GetScreenDelta(LeanTouch.Fingers);
+                horizontalMove = (transform.right * delta.x * Time.deltaTime) / (Screen.width / 300);
+                Vector3 vector = mainDragon.position + horizontalMove;
+                mainDragon.position = Vector3.Lerp(mainDragon.position, vector, Time.deltaTime * 65);
             }
         }
 
         if (mainDragon.position.x > moveDistance)
-            mainDragon.position = new Vector3(moveDistance, mainDragon.position.y, mainDragon.position.z);  
-        else if (mainDragon.position.x < -moveDistance)    
+        {
+            mainDragon.position = new Vector3(moveDistance, mainDragon.position.y, mainDragon.position.z);
+        }
+        else if (mainDragon.position.x < -moveDistance)
+        {
             mainDragon.position = new Vector3(-moveDistance, mainDragon.position.y, mainDragon.position.z);
+        }
     }
 }

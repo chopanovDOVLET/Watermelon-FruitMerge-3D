@@ -45,10 +45,10 @@ public class MoveController : MonoBehaviour
     void Update()
     {
         if (Input.touchCount > 0)
-             touch = Input.GetTouch(0);
-        
-         if (Input.touchCount > 0 && touch.phase == TouchPhase.Ended && Tscript.mainDragon != null && !Tscript.TakeControl)
-         {
+            touch = Input.GetTouch(0);
+
+        if ((Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && touch.phase == TouchPhase.Ended)) && Tscript.mainDragon != null && !Tscript.TakeControl)
+        {
             Tscript.mainDragon = null;
             InstanPos.position = mainDragon.transform.position;
             if (isSpecialDr)
@@ -61,15 +61,15 @@ public class MoveController : MonoBehaviour
                 SpecialDragons.Instance.Refresh();
                 isSpecialDr = false;
             }
-            
+    
             ThrowDragon();
             Invoke("SpawnNewDragon", 0.5f);
-         }
-         else if ((Input.GetMouseButtonUp(0) || touch.phase == TouchPhase.Ended) && !tapToStart)
-         {
+        }
+        else if ((Input.GetMouseButtonUp(0) || touch.phase == TouchPhase.Ended) && !tapToStart)
+        {
             tapToStart = true;
             SpawnNewDragon();
-         }
+        }
     }
 
     void SpawnNewDragon()
