@@ -68,14 +68,14 @@ public class ScrollController : MonoBehaviour
             }
         }
 
-        if (scroller.localPosition.x > 0)
-        {
-            scroller.localPosition = new Vector3(0, 0, 0);
-        }
-        else if (scroller.localPosition.x < drIn.X)
-        {
-            scroller.localPosition = new Vector3(drIn.X, 0, 0);
-        }
+        // if (scroller.localPosition.x > 0)
+        // {
+        //     scroller.localPosition = new Vector3(0, 0, 0);
+        // }
+        // else if (scroller.localPosition.x < drIn.X)
+        // {
+        //     scroller.localPosition = new Vector3(drIn.X, 0, 0);
+        // }
     }
 
     void CheckHit()

@@ -20,7 +20,7 @@ public class DragonIndicator : MonoBehaviour
     [SerializeField] Transform RewardText;
     public bool isOn;
     private int nextDr, rewardNm;
-    public float X, x;
+    public float bigX, littleX;
     private bool Rotate;
     public bool Sp, uni, bomb;
 
@@ -55,15 +55,18 @@ public class DragonIndicator : MonoBehaviour
         nextDr = drIndex;
         //dr[nextDr].transform.GetChild(1).localScale = Vector3.zero;
         //dr[nextDr].transform.GetChild(1).gameObject.SetActive(true);
-        Tweener t = handle.DOLocalMoveX(X + 215, 0.5f);
-        t.SetUpdate(true);
+        //Tweener t = handle.DOLocalMoveX(bigX + 215, 0.5f);
+        //t.SetUpdate(true);
         yield return new WaitForSecondsRealtime(1f);
         Time.timeScale = 0;
-        x = handle.localPosition.x - 215;
+        littleX = bigX;// handle.localPosition.x - 215;
         //Tweener t2 = dr[nextDr].transform.GetChild(1).DOScale(Vector3.one, 0.5f);
         //t2.SetUpdate(true);
-        Tweener t3 = handle.DOLocalMoveX(x, 1f);
+        Tweener t3 = handle.DOLocalMoveX(littleX, 1f);
         t3.SetUpdate(true);
+        yield return new WaitForSecondsRealtime(1f);
+        Tweener t2 = dr[nextDr].transform.GetChild(2).DOScale(Vector3.one, 0.5f);
+        t2.SetUpdate(true);
         isOn = false;
         TouchController.Instance.TakeControl = true;
         yield return new WaitForSecondsRealtime(.5f);
@@ -85,7 +88,7 @@ public class DragonIndicator : MonoBehaviour
             unlockNewDr.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = newFruitName;
             unlockNewDr.gameObject.SetActive(true);
             Image im = unlockNewDr.GetComponent<Image>();
-            Tweener t = im.DOFade(1, 0.5f);
+            Tweener t = im.DOFade(0.97f, 0.4f);
             t.SetUpdate(true);
             Vector3 pos = Camera.main.ScreenToWorldPoint(unlockNewDr.localPosition);
             pos = pos + (unlockNewDr.position - Camera.main.transform.position) / 1.5f;
@@ -206,7 +209,7 @@ public class DragonIndicator : MonoBehaviour
         Image im = unlockNewDr.GetComponent<Image>();
         unlockNewDr.GetChild(0).DOScale(Vector3.zero, 0.2f);
         unlockNewDr.GetChild(1).DOScale(Vector3.zero, 0.2f);
-        unlockNewDr.GetChild(2).DOScale(Vector3.zero, 0.2f);
+        //unlockNewDr.GetChild(2).DOScale(Vector3.zero, 0.2f);
         RewardText.DOScale(Vector3.zero, 0.2f);
         BombIcon.parent.DOScale(Vector3.zero, 0.2f);
         Dr.DOScale(0, 0.2f);
@@ -215,7 +218,7 @@ public class DragonIndicator : MonoBehaviour
         Rotate = false;
         unlockNewDr.GetChild(0).localScale = Vector3.zero;
         unlockNewDr.GetChild(1).localScale = Vector3.zero;
-        unlockNewDr.GetChild(2).localScale = Vector3.zero;
+        //unlockNewDr.GetChild(2).localScale = Vector3.zero;
         Destroy(Dr.gameObject);
         im.DOFade(0, 0.01f);
         yield return new WaitForSeconds(0.01f);
@@ -225,10 +228,10 @@ public class DragonIndicator : MonoBehaviour
 
     public void Init()
     {
-        X = 0;
+        bigX = 0;
         for (int i = 0; i < MoveController.Instance.currentdr; i++)
         {
-            X -= 215;
+            bigX -= 215;
         }
     }
 
@@ -245,6 +248,7 @@ public class DragonIndicator : MonoBehaviour
         for (int i = 0; i <= nextDr; i++)
         {
             dr[i].transform.GetChild(1).localScale = Vector3.one;
+            dr[i].transform.GetChild(2).localScale = Vector3.one;
             dr[i].transform.GetChild(1).gameObject.SetActive(true);
             if (i != 0)
                 handleX -= 215;

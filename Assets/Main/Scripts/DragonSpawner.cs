@@ -35,22 +35,22 @@ public class DragonSpawner : MonoBehaviour
         switch (mergeCount)
         {
             case 3:
-                comboTextParticle[0].transform.position = new Vector3(pos.x, pos.y, pos.z - 2);
+                comboTextParticle[0].transform.position = new Vector3(pos.x, pos.y + 5, pos.z - 4);
                 comboTextParticle[0].Play();
                 break;
 
             case 4:
-                comboTextParticle[1].transform.position = new Vector3(pos.x, pos.y, pos.z - 2);
+                comboTextParticle[1].transform.position = new Vector3(pos.x, pos.y + 5, pos.z - 4);
                 comboTextParticle[1].Play();
                 break;
 
             case 5:
-                comboTextParticle[2].transform.position = new Vector3(pos.x, pos.y, pos.z - 2);
+                comboTextParticle[2].transform.position = new Vector3(pos.x, pos.y + 5, pos.z - 4);
                 comboTextParticle[2].Play();
                 break;
 
             case 6:
-                comboTextParticle[3].transform.position = new Vector3(pos.x, pos.y, pos.z - 2);
+                comboTextParticle[3].transform.position = new Vector3(pos.x, pos.y + 5, pos.z - 4);
                 comboTextParticle[3].Play(); ;
                 break;
         }

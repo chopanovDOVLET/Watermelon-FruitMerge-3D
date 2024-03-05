@@ -62,15 +62,23 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator EnableLosePanel()
     {
+        StartPanel.SetActive(false);
         YsoCorp.GameUtils.YCManager.instance.OnGameFinished(false);
         
         Time.timeScale = 0;
         ScrollController.Instance.CanCheck = false;
 
+
+
+        LosePanel.gameObject.SetActive(true);
+        Tweener tweener = LosePanel.GetComponent<Image>().DOFade(0.97f, 0.75f);
+        tweener.SetUpdate(true);
+        yield return new WaitForSecondsRealtime(.75f);
+        
         if (ScoreCounter.Instance.highscore == ScoreCounter.Instance.score && 
             PlayerPrefs.GetInt("HighScore") != ScoreCounter.Instance.highscore)
         {
-            LosePanel.GetComponent<Image>().sprite = backgroundBestScore;
+            //LosePanel.GetComponent<Image>().sprite = backgroundBestScore;
             YouLoseT.GetChild(5).gameObject.SetActive(true);
             YouLoseT.GetChild(4).GetComponent<TextMeshProUGUI>().fontSize = 120;
             YouLoseT.GetChild(3).GetComponent<TextMeshProUGUI>().text = $"Score";
@@ -78,7 +86,7 @@ public class UIManager : MonoBehaviour
             YouLoseT.GetChild(4).GetComponent<TextMeshProUGUI>().fontSize = 240;
             YouLoseT.GetChild(4).GetComponent<TextMeshProUGUI>().text = $"{ScoreCounter.Instance.highscore}";
             YouLoseT.GetChild(4).gameObject.SetActive(true);
-            CryingDr = happyDr;
+            //CryingDr = happyDr;
             LoseSound = DragonIndicator.Instance.NewDragonSound;
             isNewBestScore = true;
         } else
@@ -93,31 +101,37 @@ public class UIManager : MonoBehaviour
 
             LosePanel.GetChild(2).gameObject.SetActive(true);
         }
-
-
-        LosePanel.gameObject.SetActive(true);
-        Tweener tweener = LosePanel.GetComponent<Image>().DOFade(1, 0.75f);
-        tweener.SetUpdate(true);
-        yield return new WaitForSecondsRealtime(.75f);
+        //yield return new WaitForSecondsRealtime(.75f);
         if (isNewBestScore)
         {
+            happyDr.gameObject.SetActive(true);
+            Dr = happyDr;
             LosePanel.GetChild(3).gameObject.SetActive(true);
             LosePanel.GetChild(4).gameObject.SetActive(true);
             isNewBestScore = false;
+        }
+        else
+        {
+            CryingDr.gameObject.SetActive(true);
+            Dr = CryingDr;
         }
         Tweener tweener4 = LosePanel.GetChild(0).DOScale(1, .5f);
         tweener4.SetUpdate(true);
         Vector3 pos = Camera.main.ScreenToWorldPoint(LosePanel.localPosition);
         pos = pos + (LosePanel.position - Camera.main.transform.position) / 1.5f;
         //yield return new WaitForSecondsRealtime(.3f);
-        Transform newDr = Instantiate(CryingDr, pos, Quaternion.Euler(300, 0, 90),LosePanel);
-        Vector3 drScale = newDr.localScale * 160;
-        newDr.localScale = Vector3.zero;
-        Dr = newDr;
-        Tweener tweener2 = newDr.DOScale(drScale, .75f);
+        Dr.position = pos;
+        Dr.rotation = Quaternion.Euler(300, 0, 90);
+        //Dr.parent = LosePanel;
+        //Dr.SetAsLastSibling();
+        //Transform newDr = Instantiate(CryingDr, pos, Quaternion.Euler(300, 0, 90),LosePanel);
+        Vector3 drScale = Dr.localScale * 160;
+        Dr.localScale = Vector3.zero;
+        //Dr = newDr;
+        Tweener tweener2 = Dr.DOScale(drScale, .75f);
         tweener2.SetUpdate(true);
         rotate = true;
-        AudioSource sd = Instantiate(LoseSound, newDr.position, newDr.rotation);
+        AudioSource sd = Instantiate(LoseSound, Dr.position, Dr.rotation);
         Destroy(sd.gameObject, 3f);
         sd.Play();
         yield return new WaitForSecondsRealtime(1.5f);
