@@ -100,9 +100,9 @@ public class MoveController : MonoBehaviour
         max = (currentdr > 3 && currentdr < 7) ? 3 : currentdr;
         if (currentdr > 6)
         {
-            min = currentdr - 6;
-            max = currentdr - 3;
-        }
+            min = currentdr - 7;
+            max = (currentdr > 15) ? 11 : currentdr - 4;
+        } 
         
         randomDr = Random.Range(min, max);
 
