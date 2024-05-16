@@ -19,6 +19,17 @@ public class TouchController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        if (PlayerPrefs.GetInt("SwipeTut", 0) == 0)
+        {
+            TakeControl = true;
+            StartCoroutine(Delay());
+        }
+    }
+
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(4.3f);
+        TakeControl = false;
     }
 
     void Update()
@@ -33,17 +44,42 @@ public class TouchController : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
 
+            if (touch.phase == TouchPhase.Began)
+            {
+                UIManager.Instance.swipeHand.SetActive(false);
+            }
+            
             if (touch.phase == TouchPhase.Moved)
             {
                 delta = LeanGesture.GetScreenDelta(LeanTouch.Fingers);
-                horizontalMove = (transform.right * delta.x * Time.deltaTime) / 2.6f;
-                mainDragon.position += horizontalMove;
+                horizontalMove = (transform.right * delta.x * Time.deltaTime) / (Screen.width / 400);
+                Vector3 vector = mainDragon.position + horizontalMove;
+                mainDragon.position = Vector3.Lerp(mainDragon.position, vector, Time.deltaTime * 65);
+            }
+        }
+        else
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                UIManager.Instance.swipeHand.SetActive(false);
+            }
+            
+            if (Input.GetMouseButton(0))
+            {
+                delta = LeanGesture.GetScreenDelta(LeanTouch.Fingers);
+                horizontalMove = (transform.right * delta.x * Time.deltaTime) / (Screen.width / 400);
+                Vector3 vector = mainDragon.position + horizontalMove;
+                mainDragon.position = Vector3.Lerp(mainDragon.position, vector, Time.deltaTime * 65);
             }
         }
 
         if (mainDragon.position.x > moveDistance)
-            mainDragon.position = new Vector3(moveDistance, mainDragon.position.y, mainDragon.position.z);  
-        else if (mainDragon.position.x < -moveDistance)    
+        {
+            mainDragon.position = new Vector3(moveDistance, mainDragon.position.y, mainDragon.position.z);
+        }
+        else if (mainDragon.position.x < -moveDistance)
+        {
             mainDragon.position = new Vector3(-moveDistance, mainDragon.position.y, mainDragon.position.z);
+        }
     }
 }

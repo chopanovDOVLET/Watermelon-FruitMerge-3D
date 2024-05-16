@@ -24,6 +24,18 @@ public class UIManager : MonoBehaviour
     [SerializeField] Transform happyDr;
     private bool isNewBestScore;
 
+    [Header("Tutorials")] 
+    public GameObject swipeHand;
+
+    [Header("ScreenResolutionUI")] 
+    [SerializeField] private Transform landscapePar;
+    [SerializeField] private Transform drLvlInd;
+    [SerializeField] private Transform nextDr;
+    [SerializeField] private Transform score;
+    [SerializeField] private Transform best;
+    [SerializeField] private Transform continueBtn;
+    [SerializeField] private Transform tryAgainBtn;
+
     private bool rotate;
     private Transform Dr;
 
@@ -33,6 +45,10 @@ public class UIManager : MonoBehaviour
     }
     private void Start()
     {
+        int width = Screen.width;
+        int height = Screen.height;
+        Debug.Log(width + " " + height);
+        SetScreenResolution();
         StartPanel.SetActive(true);
         YouLoseT.transform.localScale = Vector3.zero;
     }
@@ -46,16 +62,19 @@ public class UIManager : MonoBehaviour
 
     public void Bomb()
     {
-        MoveController.Instance.TakeBomb();
+        if (SpecialDragons.Instance.bombSize > 0)
+            MoveController.Instance.TakeBomb();
     }
 
     public void Unicorn()
     {
-        MoveController.Instance.TakeUnicorn();
+        if (SpecialDragons.Instance.unicornSize > 0)
+            MoveController.Instance.TakeUnicorn();
     }
 
     public void TapToStart()
     {
+        GameManager.Instance.StartGamePlayEventCrazy();
         ScrollController.Instance.CanCheck = true;
         StartPanel.SetActive(false);
     }
@@ -137,5 +156,31 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(1.5f);
         Tweener tweener3 = LosePanel.GetChild(1).DOScale(Vector3.one, 0.75f);
         tweener3.SetUpdate(true);
+    }
+
+    private void SetScreenResolution()
+    {
+        int width = Screen.width;
+        int height = Screen.height;
+
+        Vector3 drLvlIndicator = new Vector3(0, 0, 0);
+        Vector3 nextDr = new Vector3(1050, 0, 0);
+        Vector3 score = new Vector3(-825, 0, 0);
+        Vector3 best = new Vector3(0, -260, 0);
+        Vector3 bestScale = new Vector3(1.3f, 1.3f, 1.3f);
+
+        if (width > height || width >= 789)
+        {
+            drLvlInd.SetParent(landscapePar);
+            this.nextDr.SetParent(landscapePar);
+            this.score.SetParent(landscapePar);
+            this.best.SetParent(landscapePar);
+            
+            drLvlInd.localPosition = drLvlIndicator;
+            this.nextDr.localPosition = nextDr;
+            this.score.localPosition = score;
+            this.best.localScale = bestScale;
+            this.best.localPosition = best;
+        }
     }
 }
