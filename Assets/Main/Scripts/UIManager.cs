@@ -45,9 +45,10 @@ public class UIManager : MonoBehaviour
     }
     private void Start()
     {
-        int width = Screen.width;
-        int height = Screen.height;
-        Debug.Log(width + " " + height);
+        // int width = Screen.width;
+        // int height = Screen.height;
+        // Debug.Log(width + " " + height);
+        
         SetScreenResolution();
         StartPanel.SetActive(true);
         YouLoseT.transform.localScale = Vector3.zero;
@@ -82,7 +83,7 @@ public class UIManager : MonoBehaviour
     public IEnumerator EnableLosePanel()
     {
         StartPanel.SetActive(false);
-        YsoCorp.GameUtils.YCManager.instance.OnGameFinished(false);
+        // YsoCorp.GameUtils.YCManager.instance.OnGameFinished(false);
         
         Time.timeScale = 0;
         ScrollController.Instance.CanCheck = false;
