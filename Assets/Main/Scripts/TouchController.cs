@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,17 +14,24 @@ public class TouchController : MonoBehaviour
     public Vector3 horizontalMove;
     public bool TakeControl;
     Vector2 delta;
-
-
+    
+    public float moveSwipePower;
+    public float widthRatio;
 
     private void Awake()
     {
         Instance = this;
+        
         if (PlayerPrefs.GetInt("SwipeTut", 0) == 0)
         {
             TakeControl = true;
             StartCoroutine(Delay());
         }
+    }
+
+    private void Start()
+    {
+        moveSwipePower = Screen.width / Screen.height + 1;
     }
 
     IEnumerator Delay()
@@ -52,7 +60,7 @@ public class TouchController : MonoBehaviour
             if (touch.phase == TouchPhase.Moved)
             {
                 delta = LeanGesture.GetScreenDelta(LeanTouch.Fingers);
-                horizontalMove = (transform.right * delta.x * Time.deltaTime) / (Screen.width / 400);
+                horizontalMove = (transform.right * delta.x * Time.deltaTime * moveSwipePower);
                 Vector3 vector = mainDragon.position + horizontalMove;
                 mainDragon.position = Vector3.Lerp(mainDragon.position, vector, Time.deltaTime * 65);
             }
@@ -67,7 +75,7 @@ public class TouchController : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
                 delta = LeanGesture.GetScreenDelta(LeanTouch.Fingers);
-                horizontalMove = (transform.right * delta.x * Time.deltaTime) / (Screen.width / 400);
+                horizontalMove = (transform.right * delta.x * Time.deltaTime * moveSwipePower);
                 Vector3 vector = mainDragon.position + horizontalMove;
                 mainDragon.position = Vector3.Lerp(mainDragon.position, vector, Time.deltaTime * 65);
             }

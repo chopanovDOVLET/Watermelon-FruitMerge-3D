@@ -45,9 +45,9 @@ public class UIManager : MonoBehaviour
     }
     private void Start()
     {
-        // int width = Screen.width;
-        // int height = Screen.height;
-        // Debug.Log(width + " " + height);
+        int width = Screen.width;
+        int height = Screen.height;
+        Debug.Log(width + " " + height);
         
         SetScreenResolution();
         StartPanel.SetActive(true);
@@ -164,24 +164,24 @@ public class UIManager : MonoBehaviour
         int width = Screen.width;
         int height = Screen.height;
 
-        Vector3 drLvlIndicator = new Vector3(0, 0, 0);
-        Vector3 nextDr = new Vector3(1050, 0, 0);
-        Vector3 score = new Vector3(-825, 0, 0);
-        Vector3 best = new Vector3(0, -260, 0);
-        Vector3 bestScale = new Vector3(1.3f, 1.3f, 1.3f);
-
         if (width > height || width >= 789)
         {
             drLvlInd.SetParent(landscapePar);
-            this.nextDr.SetParent(landscapePar);
-            this.score.SetParent(landscapePar);
-            this.best.SetParent(landscapePar);
+            nextDr.SetParent(landscapePar);
+            score.SetParent(landscapePar);
+            best.SetParent(landscapePar);
             
-            drLvlInd.localPosition = drLvlIndicator;
-            this.nextDr.localPosition = nextDr;
-            this.score.localPosition = score;
-            this.best.localScale = bestScale;
-            this.best.localPosition = best;
+            drLvlInd.localPosition = new Vector3(0, 0, 0);
+            nextDr.localPosition = new Vector3(1050, 0, 0);
+            score.localPosition = new Vector3(-825, 0, 0);
+            best.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+            best.localPosition = new Vector3(0, -260, 0);
         }
-    }
+
+        if (width > 1300)
+        {
+            tryAgainBtn.localPosition = new Vector3(1000, -100, 0);
+            continueBtn.localPosition = new Vector3(1000, -100, 0);
+        }
+    } 
 }
