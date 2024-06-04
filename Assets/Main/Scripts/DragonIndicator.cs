@@ -81,8 +81,9 @@ public class DragonIndicator : MonoBehaviour
         if (!wasThisUnlockedBefore)
         {
             PlayerPrefs.SetInt(newFruitName, 1);
-            YsoCorp.GameUtils.YCManager.instance.OnGameStarted(nextDr);
-            YsoCorp.GameUtils.YCManager.instance.OnGameFinished(true);
+            GameManager.Instance.StopGamePlayEventCrazy();
+            // YsoCorp.GameUtils.YCManager.instance.OnGameStarted(nextDr);
+            // YsoCorp.GameUtils.YCManager.instance.OnGameFinished(true);
 
 
             unlockNewDr.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = newFruitName;
@@ -107,7 +108,8 @@ public class DragonIndicator : MonoBehaviour
             AudioSource sd = Instantiate(NewDragonSound, newDr.position, newDr.rotation);
             Destroy(sd.gameObject, 3f);
             sd.Play();
-            /*CheckSpecialDragon();
+            CheckSpecialDragon();
+            /*
             RewardNumber.text = "+" + rewardNm;
             if (uni)
                 UnicornIcon.gameObject.SetActive(true);
@@ -137,6 +139,7 @@ public class DragonIndicator : MonoBehaviour
 
     public void ContinueButton()
     {
+        GameManager.Instance.StartGamePlayEventCrazy();
         StartCoroutine(End());
     }
 
@@ -146,58 +149,62 @@ public class DragonIndicator : MonoBehaviour
         bomb = false;
         UnicornIcon.gameObject.SetActive(false);
         BombIcon.gameObject.SetActive(false);
-        switch (nextDr)
+        
+        if (PlayerPrefs.GetInt("UnLockBomb", 0) == 0 && nextDr == 3)
         {
-            case 3:
-                SpecialDragons.Instance.unicornSize += 3;
-                uni = true;
-                rewardNm = 3;
-                break;
-            case 5:
-                SpecialDragons.Instance.bombSize += 3;
-                rewardNm = 3;
-                bomb = true;
-                break;
-            case 6:
-                SpecialDragons.Instance.unicornSize += 1;
-                rewardNm = 1;
-                uni = true;
-                break;
-            case 7:
-                SpecialDragons.Instance.bombSize += 1;
-                rewardNm = 1;
-                bomb = true;
-                break;
-            case 8:
-                SpecialDragons.Instance.unicornSize += 2;
-                rewardNm = 2;
-                uni = true;
-                break;
-            case 9:
-                SpecialDragons.Instance.bombSize += 2;
-                rewardNm = 2;
-                bomb = true;
-                break;
+            SpecialDragons.Instance.bombSize += 1;
+            rewardNm = 1;
+            bomb = true;
+            PlayerPrefs.SetInt("UnLockBomb", 1);
         }
-        if (nextDr > 9)
+                
+        if (PlayerPrefs.GetInt("UnLockUnicorn", 0) == 0 && nextDr == 5)
         {
-            if (!Sp)
-            {
-                SpecialDragons.Instance.unicornSize += 2;
-                rewardNm = 2;
-                uni = true;
-                Sp = true;
-            }
-            else
-            {
-                SpecialDragons.Instance.bombSize += 2;
-                rewardNm = 2;
-                bomb = true;
-                Sp = false;
-            }
+            SpecialDragons.Instance.unicornSize += 1;
+            uni = true;
+            rewardNm = 1;
+            PlayerPrefs.SetInt("UnLockUnicorn", 1);
         }
-
+            // case 6:
+            //     SpecialDragons.Instance.unicornSize += 1;
+            //     rewardNm = 1;
+            //     uni = true;
+            //     break;
+            // case 7:
+            //     SpecialDragons.Instance.bombSize += 1;
+            //     rewardNm = 1;
+            //     bomb = true;
+            //     break;
+            // case 8:
+            //     SpecialDragons.Instance.unicornSize += 2;
+            //     rewardNm = 2;
+            //     uni = true;
+            //     break;
+            // case 9:
+            //     SpecialDragons.Instance.bombSize += 2;
+            //     rewardNm = 2;
+            //     bomb = true;
+            //     break;
+        //}
+        // if (nextDr > 9)
+        // {
+        //     if (!Sp)
+        //     {
+        //         SpecialDragons.Instance.unicornSize += 2;
+        //         rewardNm = 2;
+        //         uni = true;
+        //         Sp = true;
+        //     }
+        //     else
+        //     {
+        //         SpecialDragons.Instance.bombSize += 2;
+        //         rewardNm = 2;
+        //         bomb = true;
+        //         Sp = false;
+        //     }
+        // }
         SpecialDragons.Instance.Refresh();
+        StartCoroutine(SpecialDragons.Instance.UnLock());
     }
 
     IEnumerator End()

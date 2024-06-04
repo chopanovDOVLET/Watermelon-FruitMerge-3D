@@ -45,10 +45,10 @@ public class MoveController : MonoBehaviour
     void Update()
     {
         if (Input.touchCount > 0)
-             touch = Input.GetTouch(0);
-        
-         if (Input.touchCount > 0 && touch.phase == TouchPhase.Ended && Tscript.mainDragon != null && !Tscript.TakeControl)
-         {
+            touch = Input.GetTouch(0);
+
+        if ((Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && touch.phase == TouchPhase.Ended)) && Tscript.mainDragon != null && !Tscript.TakeControl)
+        {
             Tscript.mainDragon = null;
             InstanPos.position = mainDragon.transform.position;
             if (isSpecialDr)
@@ -61,15 +61,20 @@ public class MoveController : MonoBehaviour
                 SpecialDragons.Instance.Refresh();
                 isSpecialDr = false;
             }
-            
+
             ThrowDragon();
             Invoke("SpawnNewDragon", 0.5f);
-         }
-         else if ((Input.GetMouseButtonUp(0) || touch.phase == TouchPhase.Ended) && !tapToStart)
-         {
+        }
+        else if ((Input.GetMouseButtonUp(0) || touch.phase == TouchPhase.Ended) && !tapToStart)
+        {
             tapToStart = true;
             SpawnNewDragon();
-         }
+            if (PlayerPrefs.GetInt("SwipeTut", 0) == 0)
+            {
+                UIManager.Instance.swipeHand.SetActive(true);
+                PlayerPrefs.SetInt("SwipeTut", 1);
+            }
+        }
     }
 
     void SpawnNewDragon()
@@ -152,7 +157,8 @@ public class MoveController : MonoBehaviour
 
         isSpecialDr = true;
         Vector3 pos = new Vector3(InstanPos.position.x, Bomb.transform.position.y, InstanPos.position.z);
-        Dragon spDr = Instantiate(Bomb,pos, Bomb.transform.rotation,dragonsParent);    
+        Dragon spDr = Instantiate(Bomb,pos, Bomb.transform.rotation,dragonsParent);
+        spDr.transform.DORotateQuaternion(Quaternion.Euler(-55, 0, 90), 0.15f);
         Vector3 scale = spDr.transform.localScale;
         spDr.transform.localScale = Vector3.zero;
         spDr.isMain = true;
@@ -171,6 +177,7 @@ public class MoveController : MonoBehaviour
         isSpecialDr = true;
         Vector3 pos = new Vector3(InstanPos.position.x, Unicorn.transform.position.y, InstanPos.position.z);
         Dragon spDr = Instantiate(Unicorn, pos, Unicorn.transform.rotation, dragonsParent);
+        spDr.transform.DORotateQuaternion(Quaternion.Euler(-55, 0, 90), 0.15f);
         Vector3 scale = spDr.transform.localScale;
         spDr.transform.localScale = Vector3.zero;
         mainDragon = spDr;
