@@ -1,22 +1,11 @@
-using System;
-using CrazyGames;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
-    
     List<DragonData> drData = new List<DragonData>();
     List<Dragon> dr = new List<Dragon>();
     Transform drParent;
-    
-    public bool isGamePlayOn = false;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     void Start()
     {
@@ -121,23 +110,6 @@ public class GameManager : MonoBehaviour
                 PlayerPrefs.SetFloat("RotY" + i, dr[i].transform.rotation.y);
                 PlayerPrefs.SetFloat("RotZ" + i, dr[i].transform.rotation.z);
             }
-        }
-    }
-    
-    public void StartGamePlayEventCrazy()
-    {
-        if (!isGamePlayOn)
-        {
-            isGamePlayOn = true;
-            CrazyGames.CrazyEvents.Instance.GameplayStart();
-        }
-    }
-    public void StopGamePlayEventCrazy()
-    {
-        if (isGamePlayOn)
-        {
-            isGamePlayOn = false;
-            CrazyGames.CrazyEvents.Instance.GameplayStop();
         }
     }
 
