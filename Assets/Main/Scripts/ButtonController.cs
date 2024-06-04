@@ -19,6 +19,10 @@ public class ButtonController : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if ((adState == AdState.ad && SpecialDragons.Instance.bombSize == 0) || adState == AdState.ad && SpecialDragons.Instance.unicornSize == 0)
+        {
+            CrazyGames.CrazyAds.Instance.beginAdBreakRewarded(() => Reward()); ;
+        }
         
         if (state == State.bomb && SpecialDragons.Instance.bombSize > 0)
         {
@@ -33,6 +37,17 @@ public class ButtonController : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         else
             StartCoroutine(AddTime());
     }
+    
+    private void Reward()
+    {
+        if (state == State.unicorn)
+            SpecialDragons.Instance.unicornSize += 1;
+        else
+            SpecialDragons.Instance.bombSize += 1;
+
+        SpecialDragons.Instance.Refresh();
+    }
+
 
     IEnumerator AddTime()
     {

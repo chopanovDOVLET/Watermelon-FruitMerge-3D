@@ -70,8 +70,32 @@ public class SpecialDragons : MonoBehaviour
     }
     public void Refresh()
     {
-        bombText.text = "" + bombSize;
-        unicornText.text = "" + unicornSize;
+        if (bombSize == 0)
+        {
+            if (PlayerPrefs.GetInt("UnLockBomb", 0) == 2)
+                bomb.adState = ButtonController.AdState.ad;
+            bombAdsIcon.SetActive(true);
+        }
+        else
+        {
+            bomb.adState = ButtonController.AdState.none;
+            bombAdsIcon.SetActive(false);
+            bombText.text = "" + bombSize;
+        }
+
+
+        if (unicornSize == 0)
+        {
+            if (PlayerPrefs.GetInt("UnLockUnicorn", 0) == 2)
+                uni.adState = ButtonController.AdState.ad;
+            unicornAdsIcon.SetActive(true);
+        }
+        else
+        {
+            uni.adState = ButtonController.AdState.none;
+            unicornAdsIcon.SetActive(false);
+            unicornText.text = "" + unicornSize;
+        }
     }
     
     public IEnumerator UnLock()

@@ -81,6 +81,10 @@ public class DragonIndicator : MonoBehaviour
         if (!wasThisUnlockedBefore)
         {
             PlayerPrefs.SetInt(newFruitName, 1);
+            GameManager.Instance.StopGamePlayEventCrazy();
+            // YsoCorp.GameUtils.YCManager.instance.OnGameStarted(nextDr);
+            // YsoCorp.GameUtils.YCManager.instance.OnGameFinished(true);
+
 
             unlockNewDr.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = newFruitName;
             unlockNewDr.gameObject.SetActive(true);
@@ -105,7 +109,7 @@ public class DragonIndicator : MonoBehaviour
             Destroy(sd.gameObject, 3f);
             sd.Play();
             CheckSpecialDragon();
-            
+            /*
             RewardNumber.text = "+" + rewardNm;
             if (uni)
                 UnicornIcon.gameObject.SetActive(true);
@@ -119,7 +123,7 @@ public class DragonIndicator : MonoBehaviour
                 yield return new WaitForSecondsRealtime(0.5f);
                 Tweener t6 = BombIcon.parent.DOScale(Vector3.one, 0.5f);
                 t6.SetUpdate(true);
-            }
+            }*/
 
             Tweener t4 = unlockNewDr.GetChild(2).DOScale(Vector3.one, 0.5f);
             t4.SetUpdate(true);
@@ -135,6 +139,7 @@ public class DragonIndicator : MonoBehaviour
 
     public void ContinueButton()
     {
+        GameManager.Instance.StartGamePlayEventCrazy();
         StartCoroutine(End());
     }
 
@@ -153,54 +158,51 @@ public class DragonIndicator : MonoBehaviour
             PlayerPrefs.SetInt("UnLockBomb", 1);
         }
                 
-        if (PlayerPrefs.GetInt("UnLockUnicorn", 0) == 0 && nextDr == 4)
+        if (PlayerPrefs.GetInt("UnLockUnicorn", 0) == 0 && nextDr == 5)
         {
             SpecialDragons.Instance.unicornSize += 1;
             uni = true;
             rewardNm = 1;
             PlayerPrefs.SetInt("UnLockUnicorn", 1);
         }
-
-        switch (nextDr)
-        {
-             case 6:
-                 SpecialDragons.Instance.unicornSize += 1;
-                 rewardNm = 1;
-                 uni = true;
-                 break;
-             case 7:
-                 SpecialDragons.Instance.bombSize += 1;
-                 rewardNm = 1;
-                 bomb = true;
-                 break;
-             case 8:
-                 SpecialDragons.Instance.unicornSize += 2;
-                 rewardNm = 2;
-                 uni = true;
-                 break;
-             case 9:
-                 SpecialDragons.Instance.bombSize += 2;
-                 rewardNm = 2;
-                 bomb = true;
-                 break;
-        }
-         if (nextDr > 9)
-         {
-             if (!Sp)
-             {
-                 SpecialDragons.Instance.unicornSize += 2;
-                 rewardNm = 2;
-                 uni = true;
-                 Sp = true;
-             }
-             else
-             {
-                 SpecialDragons.Instance.bombSize += 2;
-                 rewardNm = 2;
-                 bomb = true;
-                 Sp = false;
-             }
-         }
+            // case 6:
+            //     SpecialDragons.Instance.unicornSize += 1;
+            //     rewardNm = 1;
+            //     uni = true;
+            //     break;
+            // case 7:
+            //     SpecialDragons.Instance.bombSize += 1;
+            //     rewardNm = 1;
+            //     bomb = true;
+            //     break;
+            // case 8:
+            //     SpecialDragons.Instance.unicornSize += 2;
+            //     rewardNm = 2;
+            //     uni = true;
+            //     break;
+            // case 9:
+            //     SpecialDragons.Instance.bombSize += 2;
+            //     rewardNm = 2;
+            //     bomb = true;
+            //     break;
+        //}
+        // if (nextDr > 9)
+        // {
+        //     if (!Sp)
+        //     {
+        //         SpecialDragons.Instance.unicornSize += 2;
+        //         rewardNm = 2;
+        //         uni = true;
+        //         Sp = true;
+        //     }
+        //     else
+        //     {
+        //         SpecialDragons.Instance.bombSize += 2;
+        //         rewardNm = 2;
+        //         bomb = true;
+        //         Sp = false;
+        //     }
+        // }
         SpecialDragons.Instance.Refresh();
         StartCoroutine(SpecialDragons.Instance.UnLock());
     }
