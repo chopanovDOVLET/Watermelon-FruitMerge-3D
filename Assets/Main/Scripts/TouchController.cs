@@ -14,9 +14,6 @@ public class TouchController : MonoBehaviour
     public Vector3 horizontalMove;
     public bool TakeControl;
     Vector2 delta;
-    
-    public float moveSwipePower;
-    public float widthRatio;
 
     private void Awake()
     {
@@ -27,11 +24,6 @@ public class TouchController : MonoBehaviour
             TakeControl = true;
             StartCoroutine(Delay());
         }
-    }
-
-    private void Start()
-    {
-        moveSwipePower = Screen.width / Screen.height + 1;
     }
 
     IEnumerator Delay()
@@ -60,9 +52,10 @@ public class TouchController : MonoBehaviour
             if (touch.phase == TouchPhase.Moved)
             {
                 delta = LeanGesture.GetScreenDelta(LeanTouch.Fingers);
-                horizontalMove = (transform.right * delta.x * Time.deltaTime * moveSwipePower);
+                horizontalMove = (transform.right * delta.x * Time.deltaTime) / 2.6f;
                 Vector3 vector = mainDragon.position + horizontalMove;
-                mainDragon.position = Vector3.Lerp(mainDragon.position, vector, Time.deltaTime * 65);
+                //mainDragon.position += horizontalMove;
+                mainDragon.position = Vector3.Lerp(mainDragon.position, vector, Time.deltaTime * 50);
             }
         }
         else
@@ -75,9 +68,10 @@ public class TouchController : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
                 delta = LeanGesture.GetScreenDelta(LeanTouch.Fingers);
-                horizontalMove = (transform.right * delta.x * Time.deltaTime * moveSwipePower);
+                horizontalMove = (transform.right * delta.x * Time.deltaTime) / 2.6f;
                 Vector3 vector = mainDragon.position + horizontalMove;
-                mainDragon.position = Vector3.Lerp(mainDragon.position, vector, Time.deltaTime * 65);
+                //mainDragon.position += horizontalMove;
+                mainDragon.position = Vector3.Lerp(mainDragon.position, vector, Time.deltaTime * 50);
             }
         }
 
